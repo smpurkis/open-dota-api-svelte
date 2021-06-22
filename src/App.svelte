@@ -1,20 +1,21 @@
 <script>
 	import Heroes from "./components/Heroes.svelte"
-	export let name;
+	import Navbar from "./components/Navbar.svelte"
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-	<Heroes></Heroes>
+	<Navbar/>
+	<h1>Dota Heroes</h1>
+	<Heroes/>
 </main>
 
 <style>
 	main {
 		text-align: center;
-		padding: 1em;
+		/* padding: 1em; */
 		max-width: 240px;
-		margin: 0 auto;
+		/* margin: 0 auto; */
+		background-color: rgb(6, 33, 56);
 	}
 
 	h1 {

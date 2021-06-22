@@ -1,22 +1,12 @@
 <script>
     import { Styles, Button } from "sveltestrap";
-    import CardTemplate from "./CardTemplate.svelte"
+    import CardTemplate from "./CardTemplate.svelte";
+    import { heroView } from "./stores";
 
-    const colors = [
-        "primary",
-        "secondary",
-        "success",
-        "danger",
-        "warning",
-        "info",
-        "light",
-        "dark",
-    ];
     const openDotaBaseUrl = "https://api.opendota.com/api/";
 
     async function loadJsonAwait(url) {
-        let resp = await fetch(url);
-        let json = await resp.json();
+        let json = await (await fetch(url)).json();
         return json;
     }
 
@@ -28,38 +18,37 @@
     }
     let heroes = loadUrl(openDotaBaseUrl + "heroes");
 
-    function onclick() {
-        console.log("Have clicked");
+    async function importSpecialHeroNames() {
+        let specialHeroSrcNames = await (
+            await fetch("data/specialHeroNames.json")
+        ).json();
+        console.log(specialHeroSrcNames);
+        return specialHeroSrcNames;
     }
+    let specialHeroSrcNames = importSpecialHeroNames();
 </script>
 
-<main>
-    <!-- <div class="grid">
-        {#each colors as color}
-            <CardTemplate
-            title={color}
-            body="Example Body"
-            color={color}
-            buttonSrc="http://www.google.com"
-            />
-        {/each}
-    </div>
-
-    <p>Hello World!</p> -->
-
+<div>
+    {#if heroView != "none"}
+        <p>No view!</p>
+    {:else}
+        <p>hello world</p>
+    {/if}
     <div class="grid">
         {#await heroes then heroes}
             {#each heroes as hero}
-                <CardTemplate hero={hero}/>
+                <CardTemplate {hero} {specialHeroSrcNames} />
             {/each}
         {/await}
     </div>
-</main>
+</div>
 <Styles />
 
 <style>
     .grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 15vw));
+        grid-gap: 1em;
+        grid-auto-flow: row;
     }
 </style>
