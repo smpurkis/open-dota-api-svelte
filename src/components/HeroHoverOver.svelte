@@ -1,24 +1,26 @@
 <script>
     import { Button, Modal, Fade } from "sveltestrap";
     import { heroView } from "./stores";
+    import HeroWinrates from "./HeroWinrates.svelte";
+    import HeroMatches from "./HeroMatches.svelte";
+
 
     export let open = false;
-    export let hero = null;
-    export let allHeroDetails;
 
     let heroData;
-    async function loadDescription(hero, allHeroDetails) {
-        if (hero != null) {
-            allHeroDetails = await allHeroDetails;
-            heroData = await Object.values(allHeroDetails).filter(
-                (heroData) => heroData.name == hero.localized_name
-            )[0];
+    heroView.subscribe((hero) => {
+        heroData = hero;
+    });
+
+    async function loadDescription(heroData) {
+        console.log(heroData);
+        if (heroData != null) {
             return heroData.description;
         } else {
             return "Loading...";
         }
     }
-    $: descriptionPromise = loadDescription(hero, allHeroDetails);
+    $: descriptionPromise = loadDescription(heroData);
 
     let openLink = () => {
         window.open(`https://dota2.fandom.com/wiki/${hero.localized_name}`);
@@ -33,40 +35,59 @@
 <div>
     <Fade isOpen={open}>
         <Modal isOpen={true} {toggle} size="xl">
-            <br />
-            <h1>{hero.localized_name}</h1>
-            <hr />
-            <div class="body">
-                {#await descriptionPromise then d}
-                    <div class="paragraph">
-                        <p>{d.split(" ").slice(0, (d.split(" ").length/2)).join(" ")}</p>
-                        <p>{d.split(" ").slice((d.split(" ").length/2), d.split(" ").length).join(" ")}</p>
-                    </div>
-                    <div class="img">
-                        <img src={heroData.src} alt="hero portrait" />
-                    </div>
-                {:catch err}
-                    <p>{err.message}</p>
-                {/await}
+            <div class="modal-class">
+                <br />
+                <h1>{heroData.localized_name}</h1>
+                <hr />
+                <div class="body">
+                    {#await descriptionPromise then d}
+                        <div class="img">
+                            <img src={heroData.src} alt="hero portrait" />
+                        </div>
+                        <div class="paragraph">
+                            <p>{d}</p>
+                        </div>
+                    {:catch err}
+                        <p>{err.message}</p>
+                    {/await}
+                    // add info from open dota api, e.g. winrates, last 5 matches,
+                    top player of that hero, etc
+                </div>
+                <HeroWinrates />
+                <HeroMatches />
+                <div class="button">
+                    <Button color="primary" on:click={openLink}
+                        >Wiki Page</Button
+                    > // add more buttons to modal
+                </div>
+                <hr />
+                <div class="button">
+                    <Button color="danger" on:click={toggle}>Cancel</Button>
+                </div>
             </div>
-            <div>
-                <Button on:click={openLink}>Wiki Page</Button>
-            </div>
-            <hr />
-            <Button color="danger" on:click={toggle}>Cancel</Button>
         </Modal>
     </Fade>
 </div>
 
 <style>
+    .button {
+        text-align: center;
+    }
+
+    .modal-class {
+        margin: 10px;
+    }
+
     .paragraph {
         display: flex;
         flex-direction: row;
     }
-    
+
     .img {
-        margin-top: 30px;
+        margin-bottom: 5px;
         padding-right: 10px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     img {
@@ -76,6 +97,8 @@
 
     .body {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     h1 {
@@ -84,8 +107,6 @@
 
     p {
         text-align: justify;
-        /* text-align-last: justify; */
-        margin: 10px;
-        max-width: 50%;
+        padding-right: 10px;
     }
 </style>

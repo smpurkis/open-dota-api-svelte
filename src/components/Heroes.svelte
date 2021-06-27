@@ -3,20 +3,13 @@
     import CardTemplate from "./CardTemplate.svelte";
     import { heroView } from "./stores";
     import HeroHoverOver from "./HeroHoverOver.svelte";
+    import { loadUrl, retrieveHeroData } from "./handleApi"
 
+    let hero = null;
+    let allHeroDetails = retrieveHeroData();
+    
     const openDotaBaseUrl = "https://api.opendota.com/api/";
-
-    async function loadJsonAwait(url) {
-        let json = await (await fetch(url)).json();
-        return json;
-    }
-
-    async function loadUrl(url) {
-        let json = await loadJsonAwait(url);
-        return json;
-    }
     let heroes = loadUrl(openDotaBaseUrl + "heroes");
-    let allHeroDetails = loadUrl("data/heroDetails.json");
 
     let heroToView = null;
     heroView.subscribe((hero) => {
@@ -25,6 +18,7 @@
     $: openHeroHoverOver = heroToView != null;
 
     function sortHeroes(heroes) {
+        console.log(heroes);
         return Object.values(heroes).sort(function (a, b) {
                     var textA = a.name.toUpperCase();
                     var textB = b.name.toUpperCase();
@@ -36,13 +30,11 @@
 <div>
     <HeroHoverOver
         bind:open={openHeroHoverOver}
-        hero={heroToView}
-        {allHeroDetails}
     />
     <div class="grid">
         {#await heroes then heroes}
             {#each sortHeroes(heroes) as hero}
-                <CardTemplate {hero} {allHeroDetails} />
+                <CardTemplate {allHeroDetails} {hero}/>
             {/each}
         {/await}
     </div>

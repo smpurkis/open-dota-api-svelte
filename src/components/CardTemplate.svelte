@@ -26,9 +26,11 @@
         return portraitSrc;
     }
 
-    function onHeroEnter() {
+    async function onHeroEnter() {
         console.log(hero);
-        heroView.set(hero);
+        allHeroDetails = await allHeroDetails
+        let heroDetails = allHeroDetails.filter(heroDets => heroDets.name == hero.localized_name)[0]
+        heroView.set(heroDetails);
     }
 </script>
 
