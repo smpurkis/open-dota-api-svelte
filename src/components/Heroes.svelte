@@ -2,6 +2,7 @@
     import { Styles, Button } from "sveltestrap";
     import CardTemplate from "./CardTemplate.svelte";
     import { heroView } from "./stores";
+    import HeroHoverOver from "./HeroHoverOver.svelte";
 
     const openDotaBaseUrl = "https://api.opendota.com/api/";
 
@@ -11,33 +12,37 @@
     }
 
     async function loadUrl(url) {
-        console.log(url);
         let json = await loadJsonAwait(url);
-        console.log(json);
         return json;
     }
     let heroes = loadUrl(openDotaBaseUrl + "heroes");
+    let allHeroDetails = loadUrl("data/heroDetails.json");
 
-    async function importSpecialHeroNames() {
-        let specialHeroSrcNames = await (
-            await fetch("data/specialHeroNames.json")
-        ).json();
-        console.log(specialHeroSrcNames);
-        return specialHeroSrcNames;
+    let heroToView = null;
+    heroView.subscribe((hero) => {
+        heroToView = hero;
+    });
+    $: openHeroHoverOver = heroToView != null;
+
+    function sortHeroes(heroes) {
+        return Object.values(heroes).sort(function (a, b) {
+                    var textA = a.name.toUpperCase();
+                    var textB = b.name.toUpperCase();
+                    return textA < textB ? -1 : textA > textB ? 1 : 0;
+                })
     }
-    let specialHeroSrcNames = importSpecialHeroNames();
 </script>
 
 <div>
-    {#if heroView != "none"}
-        <p>No view!</p>
-    {:else}
-        <p>hello world</p>
-    {/if}
+    <HeroHoverOver
+        bind:open={openHeroHoverOver}
+        hero={heroToView}
+        {allHeroDetails}
+    />
     <div class="grid">
         {#await heroes then heroes}
-            {#each heroes as hero}
-                <CardTemplate {hero} {specialHeroSrcNames} />
+            {#each sortHeroes(heroes) as hero}
+                <CardTemplate {hero} {allHeroDetails} />
             {/each}
         {/await}
     </div>
@@ -50,5 +55,6 @@
         grid-template-columns: repeat(auto-fit, minmax(200px, 15vw));
         grid-gap: 1em;
         grid-auto-flow: row;
+        justify-content: center;
     }
 </style>

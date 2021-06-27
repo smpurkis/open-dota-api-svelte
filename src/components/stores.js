@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const heroView = writable("None");
+export const heroView = writable(null);

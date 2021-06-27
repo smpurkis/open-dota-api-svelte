@@ -1,20 +1,18 @@
 <script>
-	import Heroes from "./components/Heroes.svelte"
-	import Navbar from "./components/Navbar.svelte"
+	import Heroes from "./components/Heroes.svelte";
+	import Navbar from "./components/Navbar.svelte";
 </script>
 
 <main>
-	<Navbar/>
+	<Navbar />
 	<h1>Dota Heroes</h1>
-	<Heroes/>
+	<Heroes />
 </main>
 
 <style>
 	main {
 		text-align: center;
-		/* padding: 1em; */
 		max-width: 240px;
-		/* margin: 0 auto; */
 		background-color: rgb(6, 33, 56);
 	}
 

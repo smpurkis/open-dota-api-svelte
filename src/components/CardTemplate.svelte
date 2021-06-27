@@ -2,7 +2,8 @@
     import { Button } from "sveltestrap";
 
     export let hero;
-    export let specialHeroSrcNames;
+    export let allHeroDetails;
+    import { heroView } from "./stores";
 
     let showFullInfo = false;
 
@@ -13,39 +14,38 @@
     };
     let attrColor = attrColors[hero.primary_attr];
 
-    let heroSrcName = hero.localized_name
-        .replaceAll(" ", "_")
-        .replace("-", "")
-        .toLowerCase();
+    let heroSrcName = hero.localized_name;
 
-    async function loadPortraitSrc(heroName, specialHeroSrcNames) {
-        specialHeroSrcNames = await specialHeroSrcNames;
-        if (heroName in specialHeroSrcNames) {
-            heroName = specialHeroSrcNames[heroName];
-        }
-        return `https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${heroName}.png`;
+    let portraitSrc = loadPortraitSrc(heroSrcName, allHeroDetails);
+
+    async function loadPortraitSrc(heroName, allHeroDetails) {
+        allHeroDetails = Object.values(await allHeroDetails);
+        let portraitSrc = allHeroDetails.filter(
+            (hero) => hero.name == heroName
+        )[0].src;
+        return portraitSrc;
     }
-    let portraitSrc = loadPortraitSrc(heroSrcName, specialHeroSrcNames);
 
-    function onclick() {
+    function onHeroEnter() {
         console.log(hero);
+        heroView.set(hero);
     }
 </script>
 
 <div>
     <div
+        id="hero-hover-div-{hero.name}"
         class="hero-card"
         style="--attr_color: {attrColor}"
-        on:mouseenter={onclick}
     >
         <h2>{hero.localized_name}</h2>
         {#await portraitSrc then src}
-            <img width="60%" {src} alt={hero.localized_name} loading="lazy" />
+            <img {src} alt={hero.localized_name} loading="lazy" />
         {/await}
         <hr />
         <h5>{hero.primary_attr.toUpperCase()}</h5>
         <p>Roles: {hero.roles.join(", ")}</p>
-        <Button color="primary" on:click={onclick}>Share</Button>
+        <Button color="primary" on:click={onHeroEnter}>More Info</Button>
     </div>
 </div>
 
@@ -54,17 +54,24 @@
         background-color: var(--attr_color);
         margin: 5px;
         padding: 5px;
-        border: 2px dotted black;
+        border: 2px solid black;
         border-radius: 30px;
         transition: 0.1s;
         min-width: fit-content;
         width: 15vw;
         min-height: fit-content;
+        height: 100%;
         max-height: 50vw;
         overflow: hidden;
     }
 
     .hero-card:hover {
         border: 5px solid black;
+    }
+
+    img {
+        border: 5px solid black;
+        border-radius: 30px;
+        width: 80%;
     }
 </style>
