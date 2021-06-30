@@ -96,22 +96,19 @@
                 </tbody>
             {/each}
         </Table>
-        <!-- <div class="match-container">
-            <p>Match ID: {match.match_id}</p>
-            <p>Duration: {Math.round(match.duration/60)}:{Math.round(match.duration%60)}</p>
-            <p>Side: {match.radiant ? "Radiant" : "Dire"}</p>
-            <p>Victor: {match.radiant_win ? "Radiant" : "Dire"}</p>
-            <p>K/D/A: {match.kills}/{match.deaths}/{match.assists}</p>
-        </div> -->
     {:catch error}
         <p>{error}</p>
     {/await}
 </div>
 
 <style>
-    .match-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+    th {
+        outline: grey solid 3px;
+        transition: all 0.2s;
+    }
+
+    th:hover {
+        outline: grey solid 6px;
+        outline-offset: -6px;
     }
 </style>

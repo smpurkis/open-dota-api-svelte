@@ -1,8 +1,9 @@
 <script>
     import { Styles, Button } from "sveltestrap";
     import CardTemplate from "./CardTemplate.svelte";
-    import { heroView } from "./stores";
     import HeroHoverOver from "./HeroHoverOver.svelte";
+    import HeroFilter from "./HeroFilters.svelte"
+    import { heroView } from "./stores";
     import { loadUrl, retrieveHeroData } from "./handleApi"
 
     let hero = null;
@@ -17,13 +18,13 @@
     });
     $: openHeroHoverOver = heroToView != null;
 
-    function sortHeroes(heroes) {
-        console.log(heroes);
-        return Object.values(heroes).sort(function (a, b) {
+    function sortHeroesAlphetically(heroes) {
+        let sortedList = Object.values(heroes).sort(function (a, b) {
                     var textA = a.name.toUpperCase();
                     var textB = b.name.toUpperCase();
                     return textA < textB ? -1 : textA > textB ? 1 : 0;
                 })
+        return sortedList
     }
 </script>
 
@@ -31,13 +32,14 @@
     <HeroHoverOver
         bind:open={openHeroHoverOver}
     />
-    <div class="grid">
+    <HeroFilter/>
+    <!-- <div class="grid">
         {#await heroes then heroes}
-            {#each sortHeroes(heroes) as hero}
+            {#each sortHeroesAlphetically(heroes) as hero}
                 <CardTemplate {allHeroDetails} {hero}/>
             {/each}
         {/await}
-    </div>
+    </div> -->
 </div>
 <Styles />
 

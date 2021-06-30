@@ -4,8 +4,15 @@
 </script>
 
 <main>
-	<Navbar />
 	<h1>Dota Heroes</h1>
+	<span class="span">
+		<p>
+			Hello, this is a demo project to show an application and example of
+			using an external API. In this case, &nbsp;
+		</p>
+		<a href="https://docs.opendota.com">OpenDota API</a>
+		<p>.</p>
+	</span>
 	<Heroes />
 </main>
 
@@ -14,6 +21,12 @@
 		text-align: center;
 		max-width: 240px;
 		background-color: rgb(6, 33, 56);
+	}
+
+	.span {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
 	}
 
 	h1 {

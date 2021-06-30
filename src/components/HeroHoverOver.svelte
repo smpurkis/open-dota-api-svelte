@@ -13,7 +13,6 @@
     });
 
     async function loadDescription(heroData) {
-        console.log(heroData);
         if (heroData != null) {
             return heroData.description;
         } else {
@@ -22,8 +21,8 @@
     }
     $: descriptionPromise = loadDescription(heroData);
 
-    let openLink = () => {
-        window.open(`https://dota2.fandom.com/wiki/${hero.localized_name}`);
+    let openLink = (link) => {
+        window.open(link);
     };
 
     const toggle = async () => {
@@ -50,20 +49,27 @@
                     {:catch err}
                         <p>{err.message}</p>
                     {/await}
-                    // add info from open dota api, e.g. winrates, last 5 matches,
-                    top player of that hero, etc
                 </div>
                 <HeroWinrates />
-                <HeroMatches />
                 <div class="button">
-                    <Button color="primary" on:click={openLink}
-                        >Wiki Page</Button
-                    > // add more buttons to modal
+                    <Button color="primary" on:click={() => openLink(`https://dota2.fandom.com/wiki/${heroData.localized_name}`)}
+                        >Wiki</Button
+                    >
+                    <Button color="primary" on:click={() => openLink(`https://www.dotabuff.com/heroes/${heroData.localized_name.split(" ").join("-").toLowerCase()}`)}
+                        >DotaBuff</Button
+                    >
+                    <Button color="primary" on:click={() => openLink(`https://www.opendota.com/heroes/${heroData.id}`)}
+                        >OpenDota</Button
+                    >
+                    <Button color="primary" on:click={() => openLink(`https://www.dota2.com/hero/${heroData.localized_name.split(" ").join("").toLowerCase()}`)}
+                        >Official Dota</Button
+                    >
                 </div>
                 <hr />
                 <div class="button">
                     <Button color="danger" on:click={toggle}>Cancel</Button>
                 </div>
+                <HeroMatches />
             </div>
         </Modal>
     </Fade>

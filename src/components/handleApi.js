@@ -3,8 +3,7 @@ const openDotaBaseUrl = "https://api.opendota.com/api/";
 
 async function loadUrl(url) {
     let local = localStorage.getItem(url)
-    console.log("local", local);
-    if (local == null){
+    if (local == null) {
         let json = await (await fetch(url)).json();
         localStorage.setItem(url, JSON.stringify(json))
         return json;
@@ -28,7 +27,6 @@ async function retrieveHeroData() {
         Object.assign(heroDetails, heroStats)
         heroDetails.name = hero.localized_name
     }
-    console.log("allHeroDetails", allHeroDetails);
     return allHeroDetails;
 }
 

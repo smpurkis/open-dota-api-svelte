@@ -27,7 +27,6 @@
     }
 
     async function onHeroEnter() {
-        console.log(hero);
         allHeroDetails = await allHeroDetails
         let heroDetails = allHeroDetails.filter(heroDets => heroDets.name == hero.localized_name)[0]
         heroView.set(heroDetails);
@@ -45,7 +44,7 @@
             <img {src} alt={hero.localized_name} loading="lazy" />
         {/await}
         <hr />
-        <h5>{hero.primary_attr.toUpperCase()}</h5>
+        <h5>Primary Attr: {hero.primary_attr.toUpperCase()}</h5>
         <p>Roles: {hero.roles.join(", ")}</p>
         <Button color="primary" on:click={onHeroEnter}>More Info</Button>
     </div>
