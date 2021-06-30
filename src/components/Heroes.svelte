@@ -33,13 +33,13 @@
         bind:open={openHeroHoverOver}
     />
     <HeroFilter/>
-    <!-- <div class="grid">
+    <div class="grid">
         {#await heroes then heroes}
             {#each sortHeroesAlphetically(heroes) as hero}
                 <CardTemplate {allHeroDetails} {hero}/>
             {/each}
         {/await}
-    </div> -->
+    </div>
 </div>
 <Styles />
 
