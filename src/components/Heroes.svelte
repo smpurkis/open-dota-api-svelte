@@ -2,13 +2,16 @@
     import { Styles, Button } from "sveltestrap";
     import CardTemplate from "./CardTemplate.svelte";
     import HeroHoverOver from "./HeroHoverOver.svelte";
-    import HeroFilter from "./HeroFilters.svelte"
-    import { heroView } from "./stores";
-    import { loadUrl, retrieveHeroData } from "./handleApi"
+    import { heroView, heroSearchBarFilter } from "./stores";
+    import { loadUrl, retrieveHeroData, loadPortraitSrc } from "./handleApi";
+    import HeroFilters from "./HeroFilters.svelte";
+    import { slide, fade } from "svelte/transition";
+	import { flip } from 'svelte/animate';
+
 
     let hero = null;
     let allHeroDetails = retrieveHeroData();
-    
+
     const openDotaBaseUrl = "https://api.opendota.com/api/";
     let heroes = loadUrl(openDotaBaseUrl + "heroes");
 
@@ -18,25 +21,48 @@
     });
     $: openHeroHoverOver = heroToView != null;
 
-    function sortHeroesAlphetically(heroes) {
+    let heroFilter = "";
+    heroSearchBarFilter.subscribe((filter) => {
+        heroFilter = filter;
+    });
+
+    $: sortHeroesAlphetically = (heroes, heroFilter) => {
         let sortedList = Object.values(heroes).sort(function (a, b) {
-                    var textA = a.name.toUpperCase();
-                    var textB = b.name.toUpperCase();
-                    return textA < textB ? -1 : textA > textB ? 1 : 0;
-                })
-        return sortedList
-    }
+            var textA = a.name.toUpperCase();
+            var textB = b.name.toUpperCase();
+            return textA < textB ? -1 : textA > textB ? 1 : 0;
+        });;
+        sortedList = sortedList.filter((hero) => {
+            if (heroFilter != "") {
+                return hero.localized_name.toLowerCase().includes(heroFilter);
+            } else {
+                return hero;
+            }
+        });
+        return sortedList;
+    };
 </script>
 
 <div>
-    <HeroHoverOver
-        bind:open={openHeroHoverOver}
-    />
-    <HeroFilter/>
+    <HeroHoverOver bind:open={openHeroHoverOver} />
+    <HeroFilters />
     <div class="grid">
         {#await heroes then heroes}
-            {#each sortHeroesAlphetically(heroes) as hero}
-                <CardTemplate {allHeroDetails} {hero}/>
+            {#each sortHeroesAlphetically(heroes, heroFilter) as hero, index (hero)}
+                <span
+                in:fade={{duration: 1000}}
+                out:fade={{duration: 500}}
+                animate:flip={{duration: 1000}}
+                >
+                    <CardTemplate
+                        {allHeroDetails}
+                        {hero}
+                        portraitSrc={loadPortraitSrc(
+                            hero.localized_name,
+                            allHeroDetails
+                        )}
+                    />
+                </span>
             {/each}
         {/await}
     </div>

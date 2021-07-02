@@ -1,11 +1,10 @@
 <script>
     import { Button } from "sveltestrap";
+    import { heroView } from "./stores";
 
     export let hero;
     export let allHeroDetails;
-    import { heroView } from "./stores";
-
-    let showFullInfo = false;
+    export let portraitSrc = "";
 
     const attrColors = {
         str: "rgba(130,21,21, 0.7)", // red
@@ -14,21 +13,11 @@
     };
     let attrColor = attrColors[hero.primary_attr];
 
-    let heroSrcName = hero.localized_name;
-
-    let portraitSrc = loadPortraitSrc(heroSrcName, allHeroDetails);
-
-    async function loadPortraitSrc(heroName, allHeroDetails) {
-        allHeroDetails = Object.values(await allHeroDetails);
-        let portraitSrc = allHeroDetails.filter(
-            (hero) => hero.name == heroName
-        )[0].src;
-        return portraitSrc;
-    }
-
     async function onHeroEnter() {
-        allHeroDetails = await allHeroDetails
-        let heroDetails = allHeroDetails.filter(heroDets => heroDets.name == hero.localized_name)[0]
+        allHeroDetails = await allHeroDetails;
+        let heroDetails = allHeroDetails.filter(
+            (heroDets) => heroDets.name == hero.localized_name
+        )[0];
         heroView.set(heroDetails);
     }
 </script>

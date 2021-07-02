@@ -51,6 +51,7 @@
                     {/await}
                 </div>
                 <HeroWinrates />
+                <h4>Useful Links</h4>
                 <div class="button">
                     <Button color="primary" on:click={() => openLink(`https://dota2.fandom.com/wiki/${heroData.localized_name}`)}
                         >Wiki</Button
@@ -66,7 +67,7 @@
                     >
                 </div>
                 <hr />
-                <div class="button">
+                <div class="button-cancel">
                     <Button color="danger" on:click={toggle}>Cancel</Button>
                 </div>
                 <HeroMatches />
@@ -76,8 +77,16 @@
 </div>
 
 <style>
+    h4 {
+        text-align: center;
+    }
+
     .button {
         text-align: center;
+    }
+
+    .button-cancel {
+        text-align: right;
     }
 
     .modal-class {

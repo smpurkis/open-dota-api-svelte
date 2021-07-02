@@ -42,9 +42,10 @@
                     .map((pick) => heroData[pick])
                     .reduce((a, b) => a + b)
         ) / 10;
-    pickWinrates.push({name: "Overall", winrate: overallWinrate})
+    pickWinrates.push({ name: "Overall", winrate: overallWinrate });
 </script>
 
+<h4>Winrates</h4>
 <div>
     <Table>
         <thead>
@@ -59,3 +60,9 @@
         </tbody>
     </Table>
 </div>
+
+<style>
+    h4 {
+        text-align: center;
+    }
+</style>

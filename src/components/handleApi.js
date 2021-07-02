@@ -30,5 +30,11 @@ async function retrieveHeroData() {
     return allHeroDetails;
 }
 
+async function loadPortraitSrc(heroName, allHeroDetails) {
+    allHeroDetails = Object.values(await allHeroDetails);
+    let portraitSrc = allHeroDetails.filter(
+        (hero) => hero.name == heroName)[0].src;
+    return portraitSrc;
+}
 
-export { loadUrl, retrieveHeroData, openDotaBaseUrl }
+export { loadUrl, retrieveHeroData, openDotaBaseUrl, loadPortraitSrc }

@@ -8,9 +8,12 @@
 	<span class="span">
 		<p>
 			Hello, this is a demo project to show an application and example of
-			using an external API. In this case, &nbsp;
+			using an external API. In this case,&nbsp;
 		</p>
 		<a href="https://docs.opendota.com">OpenDota API</a>
+		<p>&nbsp;.</p>
+		<p>&nbsp;This project is made using Svelte, See more at&nbsp;</p>
+		<a href="https://svelte.dev/">Svelte.dev</a>
 		<p>.</p>
 	</span>
 	<Heroes />

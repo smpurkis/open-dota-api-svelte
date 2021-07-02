@@ -30,8 +30,8 @@
             radiant_win: "",
             kills: "",
         };
-        let ascendingSymbol = ascending === 1 ? "^" : "v"
-        columns[column] = `(${ascendingSymbol})`
+        let ascendingSymbol = ascending === 1 ? "^" : "v";
+        columns[column] = `(${ascendingSymbol})`;
     }
 
     let sort = async (column, ascending) => {
@@ -52,7 +52,7 @@
 </script>
 
 <div>
-    <h5>Recent Matches</h5>
+    <h4>Recent Matches</h4>
     {#await heroMatches then matches}
         <Table>
             <thead>
@@ -102,6 +102,10 @@
 </div>
 
 <style>
+    h4 {
+        text-align: center;
+    }
+    
     th {
         outline: grey solid 3px;
         transition: all 0.2s;
