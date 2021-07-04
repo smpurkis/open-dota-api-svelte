@@ -2,17 +2,30 @@
     import { Button } from "sveltestrap";
     import { fade, fly, slide } from "svelte/transition";
     import { flip } from "svelte/animate";
+    import { heroSearchBarFilterCategories } from "./stores"
 
+    export let filterName;
     export let buttonText;
     export let options;
     let showOptions = true;
     const toggleShow = () => (showOptions = !showOptions);
+
+    let searchBarFilterCategories = "";
+    heroSearchBarFilterCategories.subscribe((filter) => {
+        searchBarFilterCategories = filter;
+    });
 
     const enabledOptionsTemp = {};
     options.map((option) => {
         enabledOptionsTemp[option] = "success";
     });
     $: enabledOptions = enabledOptionsTemp;
+
+    let stuff = searchBarFilterCategories
+    setTimeout(() => {
+        console.log(filterName + " " + enabledOptions);
+        stuff[filterName] = enabledOptions
+    }, 1)
 
     const switchOption = (option) => {
         const included = enabledOptions[option] === "success";
@@ -21,7 +34,10 @@
         } else {
             enabledOptions[option] = "success";
         }
-        console.log(enabledOptions);
+        stuff = searchBarFilterCategories
+        stuff[filterName] = enabledOptions
+        heroSearchBarFilterCategories.set(stuff)
+        console.log(stuff);
     };
 </script>
 
