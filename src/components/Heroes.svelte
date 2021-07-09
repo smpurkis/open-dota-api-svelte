@@ -2,18 +2,17 @@
     import { Styles, Button } from "sveltestrap";
     import CardTemplate from "./CardTemplate.svelte";
     import HeroHoverOver from "./HeroHoverOver.svelte";
-    import { heroView, heroSearchBarFilter } from "./stores";
+    import {
+        heroView,
+        heroSearchBarFilter,
+        heroSearchBarFilterCategories,
+    } from "./stores";
     import { loadUrl, retrieveHeroData, loadPortraitSrc } from "./handleApi";
     import HeroFilters from "./HeroFilters.svelte";
     import { slide, fade } from "svelte/transition";
-	import { flip } from 'svelte/animate';
+    import { flip } from "svelte/animate";
 
-
-    let hero = null;
     let allHeroDetails = retrieveHeroData();
-
-    const openDotaBaseUrl = "https://api.opendota.com/api/";
-    let heroes = loadUrl(openDotaBaseUrl + "heroes");
 
     let heroToView = null;
     heroView.subscribe((hero) => {
@@ -26,12 +25,23 @@
         heroFilter = filter;
     });
 
-    $: sortHeroesAlphetically = (heroes, heroFilter) => {
-        let sortedList = Object.values(heroes).sort(function (a, b) {
+    let enabledSearchOptions = {};
+    heroSearchBarFilterCategories.subscribe((enabledOptions) => {
+        enabledSearchOptions = enabledOptions;
+    });
+
+    $: sortHeroesAlphetically = (
+        heroDetails,
+        heroFilter,
+        enabledSearchOptions
+    ) => {
+        console.log("options", enabledSearchOptions);
+        console.log(heroDetails);
+        let sortedList = Object.values(heroDetails).sort(function (a, b) {
             var textA = a.name.toUpperCase();
             var textB = b.name.toUpperCase();
             return textA < textB ? -1 : textA > textB ? 1 : 0;
-        });;
+        });
         sortedList = sortedList.filter((hero) => {
             if (heroFilter != "") {
                 return hero.localized_name.toLowerCase().includes(heroFilter);
@@ -39,6 +49,28 @@
                 return hero;
             }
         });
+        for (const searchCategory in enabledSearchOptions) {
+            const options = enabledSearchOptions[searchCategory];
+            const allowedOptions = Object.keys(options).filter(
+                (key) => options[key] === "success"
+            );
+            sortedList = sortedList.filter((hero) => {
+                let cond;
+                if (typeof hero[searchCategory] === "string") {
+                    cond = allowedOptions.some(
+                        (option) =>
+                            option.toLowerCase() ===
+                            hero[searchCategory].toLowerCase()
+                    );
+                } else {
+                    cond = allowedOptions.some((option) =>
+                        hero[searchCategory].includes(option)
+                    );
+                }
+                console.log(hero.name, searchCategory, cond);
+                return cond;
+            });
+        }
         return sortedList;
     };
 </script>
@@ -47,20 +79,16 @@
     <HeroHoverOver bind:open={openHeroHoverOver} />
     <HeroFilters />
     <div class="grid">
-        {#await heroes then heroes}
-            {#each sortHeroesAlphetically(heroes, heroFilter) as hero, index (hero)}
+        {#await allHeroDetails then heroDetails}
+            {#each sortHeroesAlphetically(heroDetails, heroFilter, enabledSearchOptions) as hero, index (hero)}
                 <span
-                in:fade={{duration: 1000}}
-                out:fade={{duration: 500}}
-                animate:flip={{duration: 1000}}
+                    in:fade={{ duration: 1000 }}
+                    out:fade={{ duration: 500 }}
+                    animate:flip={{ duration: 1000 }}
                 >
                     <CardTemplate
-                        {allHeroDetails}
-                        {hero}
-                        portraitSrc={loadPortraitSrc(
-                            hero.localized_name,
-                            allHeroDetails
-                        )}
+                        heroDetails={hero}
+                        portraitSrc={loadPortraitSrc(hero.localized_name, hero)}
                     />
                 </span>
             {/each}

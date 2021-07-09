@@ -30,10 +30,8 @@ async function retrieveHeroData() {
     return allHeroDetails;
 }
 
-async function loadPortraitSrc(heroName, allHeroDetails) {
-    allHeroDetails = Object.values(await allHeroDetails);
-    let portraitSrc = allHeroDetails.filter(
-        (hero) => hero.name == heroName)[0].src;
+async function loadPortraitSrc(heroName, heroDetails) {
+    let portraitSrc = heroDetails.src;
     return portraitSrc;
 }
 

@@ -5,7 +5,6 @@
     let value = "";
 
     let setHeroSearchBarFilter = (event) => {
-        console.log(event);
         let searchBarValue = ""
         if (event.key.length == 1) {
             searchBarValue = event.target.value + event.key 

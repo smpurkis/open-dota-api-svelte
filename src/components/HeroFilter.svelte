@@ -23,7 +23,6 @@
 
     let stuff = searchBarFilterCategories
     setTimeout(() => {
-        console.log(filterName + " " + enabledOptions);
         stuff[filterName] = enabledOptions
     }, 1)
 
@@ -37,7 +36,6 @@
         stuff = searchBarFilterCategories
         stuff[filterName] = enabledOptions
         heroSearchBarFilterCategories.set(stuff)
-        console.log(stuff);
     };
 </script>
 

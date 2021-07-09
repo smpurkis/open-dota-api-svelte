@@ -2,8 +2,7 @@
     import { Button } from "sveltestrap";
     import { heroView } from "./stores";
 
-    export let hero;
-    export let allHeroDetails;
+    export let heroDetails;
     export let portraitSrc = "";
 
     const attrColors = {
@@ -11,30 +10,26 @@
         agi: "rgba(50,150,30, 0.7)", // green
         int: "rgba(18,114,160, 0.7)", // blue
     };
-    let attrColor = attrColors[hero.primary_attr];
+    let attrColor = attrColors[heroDetails.primary_attr];
 
     async function onHeroEnter() {
-        allHeroDetails = await allHeroDetails;
-        let heroDetails = allHeroDetails.filter(
-            (heroDets) => heroDets.name == hero.localized_name
-        )[0];
         heroView.set(heroDetails);
     }
 </script>
 
 <div>
     <div
-        id="hero-hover-div-{hero.name}"
+        id="hero-hover-div-{heroDetails.name}"
         class="hero-card"
         style="--attr_color: {attrColor}"
     >
-        <h2>{hero.localized_name}</h2>
+        <h2>{heroDetails.localized_name}</h2>
         {#await portraitSrc then src}
-            <img {src} alt={hero.localized_name} loading="lazy" />
+            <img {src} alt={heroDetails.localized_name} loading="lazy" />
         {/await}
         <hr />
-        <h5>Primary Attr: {hero.primary_attr.toUpperCase()}</h5>
-        <p>Roles: {hero.roles.join(", ")}</p>
+        <h5>Primary Attr: {heroDetails.primary_attr.toUpperCase()}</h5>
+        <p>Roles: {heroDetails.roles.join(", ")}</p>
         <Button color="primary" on:click={onHeroEnter}>More Info</Button>
     </div>
 </div>

@@ -9,8 +9,8 @@
 </script>
 
 <div>
-    <HeroFilter filterName="roles" buttonText="Range Options" options={rangeOptions} />
-    <HeroFilter filterName="primary_attributes" buttonText="Primary Attributes" options={primaryAttributes} />
-    <HeroFilter filterName="range" buttonText="Roles" options={roleOptions} />
+    <HeroFilter filterName="attack_type" buttonText="Range Options" options={rangeOptions} />
+    <HeroFilter filterName="primary_attr" buttonText="Primary Attributes" options={primaryAttributes} />
+    <HeroFilter filterName="roles" buttonText="Roles" options={roleOptions} />
     <HeroSearchBar/>
 </div>
