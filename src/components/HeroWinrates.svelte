@@ -1,6 +1,6 @@
 <script>
-    import { heroView } from "./stores";
     import { Table } from "sveltestrap";
+    import { heroView } from "./stores";
 
     let heroData;
     heroView.subscribe((hero) => {

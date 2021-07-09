@@ -35,4 +35,4 @@ async function loadPortraitSrc(heroName, heroDetails) {
     return portraitSrc;
 }
 
-export { loadUrl, retrieveHeroData, openDotaBaseUrl, loadPortraitSrc }
+export { loadUrl, retrieveHeroData, openDotaBaseUrl, loadPortraitSrc };

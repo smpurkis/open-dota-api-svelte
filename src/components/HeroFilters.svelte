@@ -1,6 +1,6 @@
 <script>
     import HeroFilter from "./HeroFilter.svelte";
-    import HeroSearchBar from "./HeroSeachBar.svelte"
+    import HeroSearchBar from "./HeroSeachBar.svelte";
 
     const filterHeroes = async (heroes) => {};
     const roleOptions = ["Support", "Disabler", "Nuker", "Durable", "Initiator", "Jungler", "Carry", "Escape", "Pusher"].sort();

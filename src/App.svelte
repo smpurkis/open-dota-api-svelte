@@ -1,6 +1,5 @@
 <script>
 	import Heroes from "./components/Heroes.svelte";
-	import Navbar from "./components/Navbar.svelte";
 </script>
 
 <main>

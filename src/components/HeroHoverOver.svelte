@@ -1,8 +1,8 @@
 <script>
-    import { Button, Modal, Fade } from "sveltestrap";
-    import { heroView } from "./stores";
-    import HeroWinrates from "./HeroWinrates.svelte";
+    import { Button,Fade,Modal } from "sveltestrap";
     import HeroMatches from "./HeroMatches.svelte";
+    import HeroWinrates from "./HeroWinrates.svelte";
+    import { heroView } from "./stores";
 
 
     export let open = false;

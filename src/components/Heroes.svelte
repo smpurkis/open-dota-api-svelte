@@ -1,16 +1,15 @@
 <script>
-    import { Styles, Button } from "sveltestrap";
+    import { flip } from "svelte/animate";
+    import { fade } from "svelte/transition";
+    import { Styles } from "sveltestrap";
     import CardTemplate from "./CardTemplate.svelte";
+    import { loadPortraitSrc,retrieveHeroData } from "./handleApi";
+    import HeroFilters from "./HeroFilters.svelte";
     import HeroHoverOver from "./HeroHoverOver.svelte";
     import {
-        heroView,
-        heroSearchBarFilter,
-        heroSearchBarFilterCategories,
+    heroSearchBarFilter,
+    heroSearchBarFilterCategories,heroView
     } from "./stores";
-    import { loadUrl, retrieveHeroData, loadPortraitSrc } from "./handleApi";
-    import HeroFilters from "./HeroFilters.svelte";
-    import { slide, fade } from "svelte/transition";
-    import { flip } from "svelte/animate";
 
     let allHeroDetails = retrieveHeroData();
 
@@ -34,9 +33,7 @@
         heroDetails,
         heroFilter,
         enabledSearchOptions
-    ) => {
-        console.log("options", enabledSearchOptions);
-        console.log(heroDetails);
+    ) =>{
         let sortedList = Object.values(heroDetails).sort(function (a, b) {
             var textA = a.name.toUpperCase();
             var textB = b.name.toUpperCase();

@@ -1,8 +1,6 @@
 <script>
-    import { Button } from "sveltestrap";
-    import { fade, fly, slide } from "svelte/transition";
-    import { flip } from "svelte/animate";
-    import { heroSearchBarFilterCategories } from "./stores"
+    import { fly } from "svelte/transition";
+    import { heroSearchBarFilterCategories } from "./stores";
 
     export let filterName;
     export let buttonText;
