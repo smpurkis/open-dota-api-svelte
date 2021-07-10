@@ -75,7 +75,6 @@
                         hero[searchCategory].includes(option)
                     );
                 }
-                console.log(hero.name, searchCategory, cond);
                 return cond;
             });
         }
