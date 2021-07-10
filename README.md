@@ -1,8 +1,8 @@
 ## Aims of this project
-- Write a SPA :tick:
-- Connect it to OpenDota API :tick:
-- Display the data in a friendly format :tick:
-- Use at least 5 different API routes :tick:
+- Write a SPA ✔️
+- Connect it to OpenDota API ✔️
+- Display the data in a friendly format ✔️
+- Use at least 5 different API routes ✔️
     1. Heroes - with Hero Stats
     2. Match ID
     3. Player by Rank - with Account ID route
