@@ -1,3 +1,6 @@
+## Description
+Svelte App built to showcase use of an external API. In this case OpenDota API.
+
 ## Aims of this project
 - Write a SPA ✔️
 - Connect it to OpenDota API ✔️
@@ -15,5 +18,4 @@
 3. Hero winrate split by pick order
 4. Hero filter and search functionality by a number of categories
 
-## TODO
-- Add a Demo page using Netlify or GitHub Pages
+A demo can be found at https://open-dota-api-svelte.netlify.app/
