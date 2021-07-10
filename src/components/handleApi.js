@@ -1,7 +1,10 @@
 const openDotaBaseUrl = "https://api.opendota.com/api/";
 
 
-async function loadUrl(url) {
+async function loadJsonFromURL(url) {
+    /**
+     * Load json data from specified URL
+     */
     let local = localStorage.getItem(url)
     if (local == null) {
         let json = await (await fetch(url)).json();
@@ -12,11 +15,14 @@ async function loadUrl(url) {
     }
 }
 
-let heroes = loadUrl(openDotaBaseUrl + "heroes");
-let heroesStats = loadUrl(openDotaBaseUrl + "heroStats")
+let heroes = loadJsonFromURL(openDotaBaseUrl + "heroes");
+let heroesStats = loadJsonFromURL(openDotaBaseUrl + "heroStats")
 
 async function retrieveHeroData() {
-    let allHeroDetails = Object.values(await loadUrl("data/heroDetails.json"));
+    /**
+     * Collect hero data into a single array
+     */
+    let allHeroDetails = Object.values(await loadJsonFromURL("data/heroDetails.json"));
     heroes = await heroes;
     heroesStats = await heroesStats
     for (let i = 0; i < heroes.length; i++) {
@@ -31,8 +37,11 @@ async function retrieveHeroData() {
 }
 
 async function loadPortraitSrc(heroName, heroDetails) {
+    /**
+     * Extract hero portrait URL
+     */
     let portraitSrc = heroDetails.src;
     return portraitSrc;
 }
 
-export { loadUrl, retrieveHeroData, openDotaBaseUrl, loadPortraitSrc };
+export { loadJsonFromURL as loadUrl, retrieveHeroData, openDotaBaseUrl, loadPortraitSrc };

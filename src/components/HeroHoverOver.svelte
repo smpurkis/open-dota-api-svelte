@@ -4,15 +4,19 @@
     import HeroWinrates from "./HeroWinrates.svelte";
     import { heroView } from "./stores";
 
-
+    // Modal is disabled on App load
     export let open = false;
 
+    // Retrieve hero data from store
     let heroData;
     heroView.subscribe((hero) => {
         heroData = hero;
     });
 
     async function loadDescription(heroData) {
+        /**
+         * Set hero description from hero data
+        */
         if (heroData != null) {
             return heroData.description;
         } else {

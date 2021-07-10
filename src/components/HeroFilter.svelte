@@ -13,18 +13,23 @@
         searchBarFilterCategories = filter;
     });
 
+    // Don't filter anything on initial App load
     const enabledOptionsTemp = {};
     options.map((option) => {
         enabledOptionsTemp[option] = "success";
     });
     $: enabledOptions = enabledOptionsTemp;
 
+    // Populate the store variables after they have been loaded
     let stuff = searchBarFilterCategories
     setTimeout(() => {
         stuff[filterName] = enabledOptions
     }, 1)
 
     const switchOption = (option) => {
+        /**
+         * Toggle specific category when clicked
+         */
         const included = enabledOptions[option] === "success";
         if (included) {
             enabledOptions[option] = "danger";

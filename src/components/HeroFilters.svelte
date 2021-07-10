@@ -2,6 +2,7 @@
     import HeroFilter from "./HeroFilter.svelte";
     import HeroSearchBar from "./HeroSeachBar.svelte";
 
+    // All the current category options
     const filterHeroes = async (heroes) => {};
     const roleOptions = ["Support", "Disabler", "Nuker", "Durable", "Initiator", "Jungler", "Carry", "Escape", "Pusher"].sort();
     const primaryAttributes = ["AGI", "INT", "STR"];

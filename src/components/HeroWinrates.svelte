@@ -11,6 +11,9 @@
     const winProperyNames = rangeEight.map((i) => `${i}_win`);
 
     const getWinrateForPickOrder = (pickNumber) => {
+        /**
+         * Calculate winrate from raw hero data
+        */
         return {
             name: `Pick ${pickNumber}`,
             winrate:
@@ -22,11 +25,15 @@
     };
 
     const getWinrateForPick = (name, win, pick) => {
+        /**
+         * Calculate winrate from raw hero data
+        */
         return {
             name: name,
             winrate: Math.round((1000 * heroData[win]) / heroData[pick]) / 10,
         };
     };
+
     let pickWinrates = rangeEight.map((i) => getWinrateForPickOrder(i));
     pickWinrates.push(getWinrateForPick("Pro Pick", "pro_win", "pro_pick"));
     pickWinrates.push(

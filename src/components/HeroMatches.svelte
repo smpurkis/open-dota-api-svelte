@@ -3,6 +3,7 @@
     import { loadUrl, openDotaBaseUrl } from "./handleApi";
     import { Table } from "sveltestrap";
 
+    // Retrieve hero data from store
     let heroData;
     heroView.subscribe((hero) => {
         heroData = hero;
@@ -21,6 +22,9 @@
     };
 
     function setSortColumn(column) {
+        /**
+         * Toggle column to ascending/descending
+        */
         sortColumn = column;
         ascending = ascending === 1 ? -1 : 1;
         columns = {
@@ -35,6 +39,9 @@
     }
 
     let sort = async (column, ascending) => {
+        /**
+         * Sort column to ascending/descending
+        */
         let awaitedMatches = await loadUrl(
             openDotaBaseUrl + `/heroes/${heroData.id}/matches`
         );
