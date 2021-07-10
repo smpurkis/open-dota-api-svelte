@@ -1,3 +1,6 @@
+## Description
+Svelte App built to showcase use of an external API. In this case OpenDota API.
+
 ## Aims of this project
 - Write a SPA ✔️
 - Connect it to OpenDota API ✔️
