@@ -29,9 +29,13 @@ async function retrieveHeroData() {
         const hero = heroes[i]
         const heroStats = heroesStats[i]
         let heroDetails = allHeroDetails.filter(heroDets => heroDets.name == hero.localized_name)[0]
-        Object.assign(heroDetails, hero)
-        Object.assign(heroDetails, heroStats)
-        heroDetails.name = hero.localized_name
+        if (heroDetails != null) {
+            Object.assign(heroDetails, hero)
+            Object.assign(heroDetails, heroStats)
+            heroDetails.name = hero.localized_name
+        } else {
+            console.log("Unable to retrieve hero details for", hero.localized_name, hero)
+        }
     }
     return allHeroDetails;
 }
